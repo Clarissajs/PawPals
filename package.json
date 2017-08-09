@@ -1,0 +1,23 @@
+{
+  "name": "pawpals",
+  "version": "1.0.0",
+  "description": "this is our Greenfield app pet helper locator",
+  "main": "_.eslintrc.js",
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Clarissajs/PawPals.git"
+  },
+  "author": "CJS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Clarissajs/PawPals/issues"
+  },
+  "homepage": "https://github.com/Clarissajs/PawPals#readme"
+}
