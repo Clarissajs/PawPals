@@ -1,12 +1,12 @@
 const express = require('express');
 const Promise = require('bluebird');
 const bodyParser = require('body-parser');
-const db = Promise.promisify(require('../database-mongo'));
+// const db = Promise.promisifyAll(require('../database-mongo'));
 const sha256 = require('sha256');
 const crypto = require('crypto');
 
 var app = express();
-app.use(express.static(__dirname + '/../client/dist'));
+app.use(express.static(__dirname + '/../client/build'));
 
 app.get('/', (req, res) => {
   let cookie = crypto.randomBytes(32).toString('hex');
