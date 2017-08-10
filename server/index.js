@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  var username = req.param('username');
+  var username = req.param('username').toUpperCase();
   var password = req.param('password');
   db.userExistsAsync(username)
     .then((exists) => {
@@ -42,7 +42,7 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  var username = req.query.username;
+  var username = req.query.username.toUpperCase();
   var pass = req.query.password;
   var email = req.query.email;
   db.userExistsAsync(username)
@@ -54,7 +54,7 @@ app.post('/signup', (req, res) => {
     .then(() => {
         let salt = crypto.randomBytes(32).toString('hex');
         let hashPass = sha256(salt+pass);
-        db.saveNewUserAsync({username, email, hashPass, salt}) // make sure this lines up with claiassas entry function
+        db.saveNewUserAsync(JSON.stringify({username, email, hashPass, salt})); // make sure this lines up with claiassas entry function
       })
     .then(() => {
       res.send(201);
