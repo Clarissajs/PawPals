@@ -1,17 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Input, Label, Form, FormGroup, Button, Col } from 'reactstrap';
+import { Input, Form, FormGroup, Button, Col } from 'reactstrap';
 
 class Login extends React.Component {
-  constructor() {
-    super();
-  }
-
-  handleFormSubmit(event) {
-    console.log(event.target.username.val());
-    console.log(event.target.password.val());
-    debugger;
-  }
 
   render() {
     return (

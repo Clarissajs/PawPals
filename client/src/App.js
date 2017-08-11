@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import logo from './logo.svg';
 import './App.css';
 import { HelloWorld } from './components/helloWorld.js'
 import { Login } from './components/Login.js'
 import { Signup } from './components/Signup.js'
 
 class App extends Component {
-  constructor() {
-    super();
-  }
-
-  handleLoginSubmit(e) {
-    console.log(e.target);
-  }
 
   render() {
     return (

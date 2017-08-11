@@ -1,11 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Input, Label, Form, FormGroup, Button, Col } from 'reactstrap';
+import { Input, Form, FormGroup, Button, Col } from 'reactstrap';
 
 class Signup extends React.Component {
-  constructor() {
-    super();
-  }
 
   render() {
     return (
