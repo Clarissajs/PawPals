@@ -5,15 +5,15 @@ import { connect } from 'react-redux'
 
 import userActions from '../actions/userActions.js'
 
-const adapter = (props) => (
-    <Input {...props.input} placeholder={props.placeholder} type={props.type}/>
+const customInput = (props) => (
+  <Input {...props.input} placeholder={props.placeholder} type={props.type}/>
 )
 
 class Login extends React.Component {
 
   handleSubmit(values) {
     console.log(values)
-    // this.props.loginUser();
+    this.props.loginUser();
   }
 
   render() {
@@ -26,11 +26,11 @@ class Login extends React.Component {
           <FormGroup>
           
             <Col xs={{size: 10, offset: 1}}>
-              <Field name='username' type='text' placeholder='Username' component={adapter}/>
+              <Field name='username' type='text' placeholder='Username' component={customInput}/>
             </Col>
 
             <Col xs={{size: 10, offset: 1}}>
-              <Field name="password" type='password' placeholder='Password' component={adapter}/>
+              <Field name="password" type='password' placeholder='Password' component={customInput}/>
               <p>Forgot your password?</p>
             </Col>
 
