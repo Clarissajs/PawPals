@@ -25,7 +25,7 @@ class App extends React.Component {
             <Route exact path='/' component={HelloWorld} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
-            <Route exact oath='/listings' component={Listings} />
+            <Route exact path='/listings' component={Listings} />
           </Switch>
         </div>
       </div>
