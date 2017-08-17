@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
+
 import { HelloWorld } from './components/helloWorld.js'
 import { Login } from './components/Login.js'
 import { Signup } from './components/Signup.js'
@@ -10,7 +12,7 @@ import userActions from './actions/userActions.js'
 
 class App extends React.Component {
   componentWillMount() {
-    this.props.loginUser(); //TODO: remove
+    // this.props.loginUser(); //TODO: remove
   }
 
   render() {
@@ -31,6 +33,8 @@ class App extends React.Component {
     );
   }
 }
+
+// Connect App to redux store
 
 const mapStateToProps = state => state;
 
