@@ -8,7 +8,7 @@ class Signup extends React.Component {
       <div>
         <h2 style={{
           marginBottom: 15
-        }}>Signup View</h2>
+        }}>Signup</h2>
         <Form>
 
           <FormGroup row>

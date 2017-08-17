@@ -8,7 +8,7 @@ class Login extends React.Component {
       <div>
         <h2 style={{
           marginBottom: 15
-        }}>Login View</h2>
+        }}>Login</h2>
         <Form onSubmit={this.handleFormSubmit}>
           <FormGroup>
           
