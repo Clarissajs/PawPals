@@ -3,16 +3,12 @@ import { Input, Form, FormGroup, Button, Col } from 'reactstrap'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
-import userActions from '../actions/userActions.js'
-
-const customInput = (props) => (
-  <Input {...props.input} placeholder={props.placeholder} type={props.type}/>
-)
+import userActions from '../actions/userActions'
+import CustomInput from './CustomInput'
 
 class Login extends React.Component {
 
   handleSubmit(values) {
-    console.log(values)
     this.props.loginUser();
   }
 
@@ -26,15 +22,15 @@ class Login extends React.Component {
           <FormGroup>
           
             <Col xs={{size: 10, offset: 1}}>
-              <Field name='username' type='text' placeholder='Username' component={customInput}/>
+              <Field name='username' type='text' placeholder='Username' component={CustomInput}/>
             </Col>
 
             <Col xs={{size: 10, offset: 1}}>
-              <Field name="password" type='password' placeholder='Password' component={customInput}/>
+              <Field name="password" type='password' placeholder='Password' component={CustomInput}/>
               <p>Forgot your password?</p>
             </Col>
 
-            <Button type='submit'>Submit</Button>
+            <Button>Submit</Button>
 
           </FormGroup>
         </Form>
@@ -45,7 +41,7 @@ class Login extends React.Component {
 
 // Connect Login to redux store
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => state.user;
 
 const mapDispatchToProps = dispatch => {
   return {

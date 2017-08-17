@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -8,12 +8,10 @@ import './App.css'
 import { HelloWorld } from './components/helloWorld.js'
 import { Login } from './components/Login.js'
 import { Signup } from './components/Signup.js'
+import Listings from './components/Listings'
 import userActions from './actions/userActions.js'
 
 class App extends React.Component {
-  componentWillMount() {
-    // this.props.loginUser(); //TODO: remove
-  }
 
   render() {
 
@@ -27,6 +25,7 @@ class App extends React.Component {
             <Route exact path='/' component={HelloWorld} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
+            <Route exact oath='/listings' component={Listings} />
           </Switch>
         </div>
       </div>

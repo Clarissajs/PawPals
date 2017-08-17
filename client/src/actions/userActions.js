@@ -1,6 +1,11 @@
 const loginUser = () => {
   return {
-    type: 'LOGIN_USER'
+    type: 'LOGIN_USER',
+    payload: {
+      request: {
+        url: '/login'
+      }
+    }
   }
 }
 
