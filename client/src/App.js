@@ -8,6 +8,7 @@ import './App.css'
 import { HelloWorld } from './components/helloWorld.js'
 import { Login } from './components/Login.js'
 import { Signup } from './components/Signup.js'
+import { NavBar } from './components/NavBar'
 import Listings from './components/Listings'
 import userActions from './actions/userActions.js'
 
@@ -17,9 +18,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>PawPals</h2>
-        </div>
+        <NavBar />
         <div>
           <Switch>
             <Route exact path='/' component={HelloWorld} />

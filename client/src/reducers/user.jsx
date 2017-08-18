@@ -12,4 +12,4 @@ const user = (state=defaultState, action) => {
   return state;
 }
 
-export default user;
+export default user

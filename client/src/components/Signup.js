@@ -22,6 +22,12 @@ class Signup extends React.Component {
 
           <FormGroup row>
             <Col xs={{size: 10, offset: 1}}>
+              <Field name='username' type='username' placeholder='Username' component={CustomInput}/>
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Col xs={{size: 10, offset: 1}}>
               <Field name='email' type='email' placeholder='Email' component={CustomInput}/>
             </Col>
           </FormGroup>
