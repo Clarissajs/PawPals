@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Form, FormGroup, Button, Col } from 'reactstrap';
+import { Input, Form, FormGroup, Button, Col, Container } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
@@ -14,10 +14,11 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <div style={{marginTop:20}}>
-        <h2 style={{
+      <Container style={{marginTop:20}}>
+        <h2>Welcome!</h2>
+        <h6 style={{
           marginBottom: 15
-        }}>Signup</h2>
+        }}>Complete the form below to join PawPals</h6>
         <Form onSubmit={this.props.handleSubmit(this.handleSubmit.bind(this))}>
 
           <FormGroup row>
@@ -58,12 +59,12 @@ class Signup extends React.Component {
 
           <FormGroup row>
             <Col xs={{size: 10, offset: 1}}>
-              <Button>Submit</Button>
+              <Button className='submitButton'>Signup</Button>
             </Col>
           </FormGroup>
 
         </Form>
-      </div>
+      </Container>
     )
   }
 }

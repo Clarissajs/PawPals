@@ -15,9 +15,10 @@ class Login extends React.Component {
   render() {
     return (
       <div style={{marginTop: 20}}>
-        <h2 style={{
+        <h2>Welcome!</h2>
+        <h6 style={{
           marginBottom: 15
-        }}>Login</h2>
+        }}>Sign in below</h6>
         <Form onSubmit={this.props.handleSubmit(this.handleSubmit.bind(this))}>
           <FormGroup>
           
@@ -25,12 +26,13 @@ class Login extends React.Component {
               <Field name='username' type='text' placeholder='Username' component={CustomInput}/>
             </Col>
 
-            <Col xs={{size: 10, offset: 1}}>
+            <Col xs={{size: 10, offset: 1}} style={{
+                marginBottom: 15
+              }}>
               <Field name="password" type='password' placeholder='Password' component={CustomInput}/>
-              <p>Forgot your password?</p>
             </Col>
 
-            <Button>Submit</Button>
+            <Button className='submitButton'>Login</Button>
 
           </FormGroup>
         </Form>

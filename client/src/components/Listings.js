@@ -13,11 +13,9 @@ class Listings extends React.Component {
     }
 
     return (
-      <Container>
-
-      {listings}
-        
-      </Container>
+      <div>
+        {listings}
+      </div>
     )
   }
 }

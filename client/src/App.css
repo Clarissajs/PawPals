@@ -1,3 +1,9 @@
+* {
+  color: #3d3232;
+  text-decoration: none;
+  outline: none;
+}
+
 .App {
   text-align: center;
 }
@@ -17,6 +23,53 @@
 .App-intro {
   font-size: large;
 }
+
+.NavLink {
+  color: #F7FFED;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.NavLink:active {
+  color: #3d3232;
+  text-decoration: none;
+}
+
+.NavLink:focus {
+  color: #3d3232;
+  text-decoration: none;
+}
+
+.activeNavLink {
+  color: #3d3232;
+}
+
+.navbar-toggler-icon {
+  color: #F7FFED;
+}
+
+.submitButton {
+  color: #F7FFED;
+  border-color: #FC7050;
+  background-color: #FC7050;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-width: .1rem;
+  border-radius: .3rem;
+}
+
+.submitButton:active, .submitButton:focus {
+  color: #FC7050;
+  border-color: #FC7050;
+  background-color: #F7FFED;
+}
+
+body {
+  /*background-color: #FCFFDD;*/
+  background-color: #F7FFED;
+  background-size: cover;
+}
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
