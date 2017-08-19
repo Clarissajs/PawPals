@@ -21,7 +21,7 @@ let cookieExample = {
 app.get('/', (req, res) => {
   // if cookie check database
   if(req.cookies.session !== undefined){
-    // var username = db.userSessionExists(reg.cookies.session);
+    var username = db.userSessionExists(reg.cookies.session);
   }
     // if cookie matches login have user have session
     // it not remove session from database and assign new cookie and session
@@ -78,8 +78,8 @@ app.post('/signup', (req, res) => {
     .then(() => {
         let salt = crypto.randomBytes(32).toString('hex');
         let hashPass = sha256(salt+pass);
-        // db.saveNewUserAsync(JSON.stringify({username, email, hashPass, salt})); // make sure this lines up with claiassas entry function
-        // var cookie = helper.setCookieSession(username);
+        db.saveNewUserAsync(JSON.stringify({username, email, hashPass, salt})); // make sure this lines up with claiassas entry function
+        // svar cookie = helper.setCookieSession(username);
         alert(helper.setCookieSession(username));
         res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
         console.log('cookie created successfully');
