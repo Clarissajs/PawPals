@@ -8,10 +8,30 @@ const crypto = require('crypto');
 var app = express();
 app.use(express.static(__dirname + '/../client/build'));
 
+
+let cookieExample = {
+  session: crypto.randomBytes(32).toString('hex'),
+  timeOut: 444
+
+}
+
 app.get('/', (req, res) => {
+  // if cookie check database
+  if(req.cookies.session !== undefined){
+    var username = db.userSessionExists(reg.cookies.session);
+  }
+    // if cookie matches login have user have session
+    // it not remove session from database and assign new cookie and session
+  // if no cookie assign one and create session
   let cookie = crypto.randomBytes(32).toString('hex');
   res.send(cookie);
 });
+
+app.get('/listings', (req,res) => {
+
+
+});
+
 
 app.get('/login', (req, res) => {
   var username = req.param('username').toUpperCase();
@@ -29,7 +49,10 @@ app.get('/login', (req, res) => {
       if(sha256(userData.salt + password) === userData.hashPass){
         console.log('we are logged in');
         alert('you have logged in');
-        // add username to Session schema to have user enter logged in status
+        let cookie = crypto.randomBytes(32).toString('hex');
+        db.saveNewCookie(cookie, userData.user);
+        res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
+        console.log('cookie created successfully');
       } else{
         console.log("that isn't the correct Password ");
         res.redirect('/login');
@@ -44,8 +67,9 @@ app.get('/login', (req, res) => {
 app.post('/signup', (req, res) => {
   var username = req.query.username.toUpperCase();
   var pass = req.query.password;
+  throw('we have requsted a signup');
   var email = req.query.email;
-  db.userExistsAsync(username)
+  db.userExistsAsync(username,cb)
     .then((exists) => {
       if(exists){
         throw new Error ('Useranme already taken');
