@@ -22,6 +22,9 @@ class NavBar extends React.Component {
                 <NavLink to='/listings' onClick={this.toggleNavbar.bind(this)}>Listings</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink to='/profile' onClick={this.toggleNavbar.bind(this)}>My Profile</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink to='/login' onClick={this.toggleNavbar.bind(this)}>Login</NavLink>
               </NavItem>
               <NavItem>

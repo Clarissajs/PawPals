@@ -1,95 +1,23 @@
 import React from 'react'
-import { Row, CardGroup, Card, Col, CardTitle, CardText } from 'reactstrap'
-
-const dummyNum = '614-738-9829';
-const name = 'Spencer Mitchell'
+import { Container } from 'reactstrap'
+import { ListingCard } from './ListingCard'
 
 
 class Listings extends React.Component {
   render() {
+
+    let listings = [];
+
+    for (let i = 0; i < 10; i++) {
+      listings.push(<ListingCard />);
+    }
+
     return (
-      <div>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs='12'>
-            <Card block className='text-left'>
-              <CardTitle>{name}</CardTitle>
-              <CardText>Number: {dummyNum}</CardText>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Container>
+
+      {listings}
+        
+      </Container>
     )
   }
 }

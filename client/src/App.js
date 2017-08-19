@@ -9,6 +9,7 @@ import { HelloWorld } from './components/helloWorld.js'
 import { Login } from './components/Login.js'
 import { Signup } from './components/Signup.js'
 import { NavBar } from './components/NavBar'
+import { UserProfile } from './components/UserProfile'
 import Listings from './components/Listings'
 import userActions from './actions/userActions.js'
 
@@ -25,6 +26,7 @@ class App extends React.Component {
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/listings' component={Listings} />
+            <Route exact path='/profile' component={UserProfile} />            
           </Switch>
         </div>
       </div>
