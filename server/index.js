@@ -1,7 +1,7 @@
 const express = require('express');
 const Promise = require('bluebird');
 const bodyParser = require('body-parser');
-// const db = Promise.promisifyAll(require('../database-mongo'));
+const db = Promise.promisifyAll(require('../database-mongo'));
 const sha256 = require('sha256');
 const crypto = require('crypto');
 const helper = require('./helper.js');
