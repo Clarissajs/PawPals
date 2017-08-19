@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 // const db = Promise.promisifyAll(require('../database-mongo'));
 const sha256 = require('sha256');
 const crypto = require('crypto');
+const helper = require('./helper.js');
 
 var app = express();
 app.use(express.static(__dirname + '/../client/build'));
@@ -15,16 +16,16 @@ let cookieExample = {
 
 }
 
+
+
 app.get('/', (req, res) => {
   // if cookie check database
   if(req.cookies.session !== undefined){
-    var username = db.userSessionExists(reg.cookies.session);
+    // var username = db.userSessionExists(reg.cookies.session);
   }
     // if cookie matches login have user have session
     // it not remove session from database and assign new cookie and session
   // if no cookie assign one and create session
-  let cookie = crypto.randomBytes(32).toString('hex');
-  res.send(cookie);
 });
 
 app.get('/listings', (req,res) => {
@@ -49,8 +50,7 @@ app.get('/login', (req, res) => {
       if(sha256(userData.salt + password) === userData.hashPass){
         console.log('we are logged in');
         alert('you have logged in');
-        let cookie = crypto.randomBytes(32).toString('hex');
-        db.saveNewCookie(cookie, userData.user);
+        var cookie = helper.setCookieSession(userData.username);
         res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
         console.log('cookie created successfully');
       } else{
@@ -78,7 +78,11 @@ app.post('/signup', (req, res) => {
     .then(() => {
         let salt = crypto.randomBytes(32).toString('hex');
         let hashPass = sha256(salt+pass);
-        db.saveNewUserAsync(JSON.stringify({username, email, hashPass, salt})); // make sure this lines up with claiassas entry function
+        // db.saveNewUserAsync(JSON.stringify({username, email, hashPass, salt})); // make sure this lines up with claiassas entry function
+        // var cookie = helper.setCookieSession(username);
+        alert(helper.setCookieSession(username));
+        res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
+        console.log('cookie created successfully');
       })
     .then(() => {
       res.send(201);

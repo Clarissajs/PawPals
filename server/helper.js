@@ -1,9 +1,11 @@
+const crypto = require('crypto');
+const db = Promise.promisifyAll(require('../database-mongo'));
 
-var setCookie(username){
+
+var setCookieSession = function(username) {
   let cookie = crypto.randomBytes(32).toString('hex');
-  db.saveNewCookie(cookie, username);
-  console.log('cookie created successfully');
+  // db.saveNewCookie(cookie, username);
   return cookie;
 }
 
-modules.export.setCookie
+module.exports.setCookieSession = setCookieSession;
