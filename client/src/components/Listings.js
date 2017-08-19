@@ -1,23 +1,38 @@
 import React from 'react'
 import { Container } from 'reactstrap'
 import { ListingCard } from './ListingCard'
+import { connect } from 'react-redux'
+
 
 
 class Listings extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
 
-    let listings = [];
+    let listingCards = [];
 
     for (let i = 0; i < 10; i++) {
-      listings.push(<ListingCard />);
+      listingCards.push(<ListingCard listing={this.props.listings[i]} />);
     }
 
     return (
       <div>
-        {listings}
+        {listingCards}
       </div>
     )
   }
 }
 
-export default Listings
+// Connect Listings to redux store
+
+const mapStateToProps = state => state.listings;
+
+
+Listings = connect(
+  mapStateToProps
+)(Listings);
+
+export default Listings;
