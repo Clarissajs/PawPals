@@ -68,8 +68,9 @@ const saveNewUser = (userData, callback) => {
   });
 }
 
-const userExists = (username, callback) => {
-  User.findOne({"username": username}, (err, person) => {
+const userExists = (email, callback) => {
+  console.log('DB: userExists running');
+  User.findOne({"email": email}, (err, person) => {
     if (err) {
       callback(err);
     }
@@ -91,10 +92,10 @@ const retrieveAllUsers = (callback) => {
   })
 }
 
-const grabUserData = (username, callback) => { //single user data: will return null if not found
+const grabUserData = (email, callback) => { //single user data: will return null if not found
   User.findOne({"email": email}, (err, person) => {
     if(err) {
-      console.log('grab user data error', err);
+      console.log('DB: grab user data error', err);
     } else {
       callback(err, person);
     }
