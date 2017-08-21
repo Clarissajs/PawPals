@@ -12,26 +12,6 @@ db.once('open', () => {
   console.log('mongoose connected successfully');
 });
 
-// all the fields we'd like
-// const userSchema = mongoose.Schema({
-//   _id: Number,
-//   username: String,
-//   name: String,
-//   firstName: String,
-//   lastName: String,
-//   email: String,
-//   hashPass: String,
-//   salt: String
-//   userType: String,
-//   image: {data: Buffer, contentType: String},
-//   pets: Array,
-//   address: String,
-//   zipcode: Number, //could be string
-//   servicesOffered: Array,
-//   preferences: Array
-// });
-
-// MVP version
 const userSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
