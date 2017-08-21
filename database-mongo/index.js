@@ -132,9 +132,14 @@ const userSessionExists = (cookie, callback) => {
   })
 }
 
+const removeSession = (session) => {
+  Session.find({"cookie": session}).remove().exec();
+}
+
 module.exports.grabUserData = grabUserData;
 module.exports.saveNewUser = saveNewUser;
 module.exports.userExists = userExists;
 module.exports.retrieveAllUsers = retrieveAllUsers;
 module.exports.saveNewCookie = saveNewCookie;
 module.exports.userSessionExists = userSessionExists;
+module.exports.removeSession = removeSession;
