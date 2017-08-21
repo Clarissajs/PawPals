@@ -51,15 +51,20 @@ const sessionSchema = mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const Session = mongoose.model('Session', userSchema);
-
-const saveNewUser = (userData) => {
-  console.log('data in helper: ', userData)
-  var newUser = new User(userData);
-  newUser.save(function (err) {
-
-    if (err) { console.log('Database save failed: ', err) }
-    else { console.log('Database saved successfully'); }
+const saveNewUser = (userData, callback) => {
+  var newUser = new User({
+    _id: userData['email'],
+    email: userData['email'],
+    firstName: userData['firstName'],
+    lastName: userData['lastName'],
+    phoneNumber: userData['phoneNumber'],
+    hashPass: userData['hashPass'],
+    salt: userData['salt']
+  });
+  newUser.save((err) => {
+    console.log('err is', err);
+    if (err) { callback(err); }
+    else { callback(null); }
   });
 }
 
@@ -95,9 +100,10 @@ const grabUserData = (username, callback) => { //single user data: will return n
     }
   });
 }
+const Session = mongoose.model('Session', userSchema);
 
 const saveNewCookie = (cookie, username) => {
-  var newSession = new Session({cookie, username}).save(() => {
+  var newSession = new Session({cookie, username}).save((err) => {
     if (err) {
       console.log('Database save failed: ', err);
     } else {
