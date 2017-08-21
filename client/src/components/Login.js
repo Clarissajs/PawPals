@@ -9,7 +9,7 @@ import CustomInput from './CustomInput'
 class Login extends React.Component {
 
   handleSubmit(formValues) {
-    this.props.loginUser(formValues)
+    this.props.loginUser(formValues);
   }
 
   render() {
@@ -23,7 +23,7 @@ class Login extends React.Component {
           <FormGroup>
           
             <Col xs={{size: 10, offset: 1}}>
-              <Field name='username' type='text' placeholder='Username' component={CustomInput}/>
+              <Field name='email' type='text' placeholder='Email' component={CustomInput}/>
             </Col>
 
             <Col xs={{size: 10, offset: 1}} style={{

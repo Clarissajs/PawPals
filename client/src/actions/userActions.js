@@ -1,9 +1,11 @@
 const loginUser = (loginFormData) => {
+  console.log(loginFormData)
   return {
     type: ['LOGIN', 'LOGIN_SUCCESS', 'LOGIN_FAIL'],
     payload: {
       request: {
-        url: '/login?',
+        url: '/login',
+        method: 'post',
         data: loginFormData
       }
     }
