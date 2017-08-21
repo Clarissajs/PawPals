@@ -53,23 +53,27 @@ const User = mongoose.model('User', userSchema);
 
 const saveNewUser = (userData, callback) => {
   var newUser = new User({
-    _id: userData['email'],
+    '_id': userData['email'],
     email: userData['email'],
     firstName: userData['firstName'],
     lastName: userData['lastName'],
-    phoneNumber: userData['phoneNumber'],
     hashPass: userData['hashPass'],
-    salt: userData['salt']
+    salt: userData['salt'],
+    provider: userData['provider'],
+    cats: userData['cats'],
+    dogs: userData['dogs'],
+    birds: userData['birds'],
+    reptiles: userData['reptiles'],
+    otherPets: userData['otherPets']
   });
   newUser.save((err) => {
-    console.log('err is', err);
+    // console.log('err is', err);
     if (err) { callback(err); }
     else { callback(null); }
   });
 }
 
 const userExists = (email, callback) => {
-  console.log('DB: userExists running');
   User.findOne({"email": email}, (err, person) => {
     if (err) {
       callback(err);
@@ -105,13 +109,13 @@ const Session = mongoose.model('Session', sessionSchema);
 
 const saveNewCookie = (sessionData) => {
     var newSession = new Session({
-      _id: sessionData['email'],
+      _id: sessionData['cookie'],
       cookie: sessionData['cookie'],
       email: sessionData['email']
     });
     newSession.save(function (err) {
       if (err) {
-        console.log('DB err is', err);
+        console.log('DB saveNewCookie err is', err);
       }
       else {
         console.log('DB: saved new cookie successfully');
@@ -119,8 +123,39 @@ const saveNewCookie = (sessionData) => {
     });
 }
 
+const userSessionExists = (cookie, callback) => {
+  Session.findOne({"cookie": cookie}, (err, cookieID) => {
+    if (err) {
+      callback(err);
+    }
+    else if (!cookieID) {
+      callback(err, null);
+    } else {
+      callback(err, cookieID['email']);
+    }
+  })
+}
+
+const removeSession = (session) => {
+  Session.find({"cookie": session}).remove().exec();
+}
+
+const retrieveUsersByZipcodes = (zipArr, callback) => {
+  let usersArr = [];
+  User.find({zip: {$in: zipArr }, provider: true}, (err, users) => {
+    if(err){
+      console.log('retrive users by zipcode error', err);
+    } else {
+      callback(err, users);
+    }
+  });
+}
+
 module.exports.grabUserData = grabUserData;
 module.exports.saveNewUser = saveNewUser;
 module.exports.userExists = userExists;
 module.exports.retrieveAllUsers = retrieveAllUsers;
 module.exports.saveNewCookie = saveNewCookie;
+module.exports.userSessionExists = userSessionExists;
+module.exports.removeSession = removeSession;
+module.exports.retrieveUsersByZipcodes = retrieveUsersByZipcodes;

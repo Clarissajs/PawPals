@@ -27,8 +27,7 @@ app.get('/', (req, res) => {
   // if no cookie assign one and create session
 });
 
-app.get('/listings', (req,res) => {
-
+app.post('/listings', (req,res) => {
   db.grabUserData(req.body.email, (err, person) => {
     helper.getNearbyZips(person.zipcode, req.body.searchRadius)
     .then((zipcodes) => {
@@ -43,26 +42,27 @@ app.get('/listings', (req,res) => {
   })
 });
 
-
-
-app.get('/login', (req, res) => {
-  console.log('server: req.body.email', req.body.email);
+app.post('/login', (req, res) => {
   var email = req.body.email.toUpperCase(); //make sure unique users
   var password = req.body.password;
   db.userExists(email, (err, exists) => {
     if(!exists){
-      console.log('Username does not exist');
+      res.status(404);
+      res.send('Username does not exist');
     } else {
       db.grabUserData(email, (err, person) => {
         if(sha256(person.salt + password) === person.hashPass){
-          console.log('we are logged in');
           var cookie = helper.setCookieSession(person.email);
-          console.log('cookie is', cookie);
           res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
-          console.log('cookie created successfully');
+          res.status(201);
+          var sanitizedPerson = person;
+          console.log('hash and salt in client response set to ""');
+          sanitizedPerson['hashPass'] = '';
+          sanitizedPerson['salt'] = '';
+          res.send(sanitizedPerson);
         } else{
-          console.log("that isn't the correct Password");
-          res.send(person);
+          res.status(401);
+          res.send('Invalid password');
         }
       });
     }
@@ -80,9 +80,13 @@ app.post('/signup', (req, res) => {
     } else {
       var cookie = helper.setCookieSession(email);
       res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
-      console.log('cookie created successfully');
     }
-    res.send(201);
+    res.status(201);
+    res.send({
+      email: email,
+      firstName: firstName,
+      lastName: lastName
+    });
   }
   db.userExists(email, (err, exists) => {
     if(exists){
@@ -92,12 +96,18 @@ app.post('/signup', (req, res) => {
       let salt = crypto.randomBytes(32).toString('hex');
       let hashPass = sha256(salt+pass);
       db.saveNewUser({
-        _id: email,
+        '_id': email,
         email: email,
         firstName: firstName,
         lastName: lastName,
         hashPass: hashPass,
-        salt:salt
+        salt:salt,
+        provider: false,
+        cats: 0,
+        dogs: 0,
+        birds: 0,
+        reptiles: 0,
+        otherPets: 0
       }, createCookie);
     }
   });
