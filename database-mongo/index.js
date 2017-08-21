@@ -119,8 +119,22 @@ const saveNewCookie = (sessionData) => {
     });
 }
 
+const userSessionExists = (cookie, callback) => {
+  Session.findOne({"cookie": cookie}, (err, cookieID) => {
+    if (err) {
+      callback(err);
+    }
+    else if (!cookieID) {
+      callback(err, null);
+    } else {
+      callback(err, cookieID['email']);
+    }
+  })
+}
+
 module.exports.grabUserData = grabUserData;
 module.exports.saveNewUser = saveNewUser;
 module.exports.userExists = userExists;
 module.exports.retrieveAllUsers = retrieveAllUsers;
 module.exports.saveNewCookie = saveNewCookie;
+module.exports.userSessionExists = userSessionExists;
