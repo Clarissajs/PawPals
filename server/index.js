@@ -44,7 +44,9 @@ app.get('/listings', (req,res) => {
 });
 
 
-app.post('/login', (req, res) => {
+
+app.get('/login', (req, res) => {
+  console.log('server: req.body.email', req.body.email);
   var email = req.body.email.toUpperCase(); //make sure unique users
   var password = req.body.password;
   db.userExists(email, (err, exists) => {
