@@ -17,8 +17,6 @@ let cookieExample = {
 
 }
 
-
-
 app.get('/', (req, res) => {
   // if cookie check database
   if(req.cookies.session !== undefined){
@@ -75,6 +73,16 @@ app.post('/signup', (req, res) => {
   var pass = req.body.password;
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
+  var createCookie = (err) => {
+    if (err !== null) {
+      console.log('err is', err);
+    } else {
+      var cookie = helper.setCookieSession(email);
+      res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
+      console.log('cookie created successfully');
+    }
+    res.send(201);
+  }
   db.userExists(email, (err, exists) => {
     if(exists){
       console.log('Username already taken');
@@ -82,20 +90,16 @@ app.post('/signup', (req, res) => {
     } else {
       let salt = crypto.randomBytes(32).toString('hex');
       let hashPass = sha256(salt+pass);
-      db.saveNewUser(JSON.stringify({
+      db.saveNewUser({
+        _id: email,
         email: email,
         firstName: firstName,
         lastName: lastName,
         hashPass: hashPass,
         salt:salt
-      })); // make sure this lines up with clarissa's entry function
-      var cookie = helper.setCookieSession(email);
-      res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
-      console.log('cookie created successfully');
+      }, createCookie); // make sure this lines up with clarissa's entry function
     }
-
   });
-    res.send(201);
 });
 
 app.listen(3000, function() {
