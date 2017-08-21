@@ -44,6 +44,7 @@ const petSchema = mongoose.Schema({
 })
 
 const sessionSchema = mongoose.Schema({
+  _id: String,
   cookie: String,
   username: String
 });
