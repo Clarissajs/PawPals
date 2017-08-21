@@ -8,7 +8,8 @@ const helper = require('./helper.js');
 
 var app = express();
 app.use(express.static(__dirname + '/../client/build'));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 let cookieExample = {
   session: crypto.randomBytes(32).toString('hex'),
@@ -21,7 +22,7 @@ let cookieExample = {
 app.get('/', (req, res) => {
   // if cookie check database
   if(req.cookies.session !== undefined){
-    var username = db.userSessionExists(reg.cookies.session);
+    var email = db.userSessionExists(reg.cookies.session);
   }
     // if cookie matches login have user have session
     // it not remove session from database and assign new cookie and session
@@ -29,32 +30,40 @@ app.get('/', (req, res) => {
 });
 
 app.get('/listings', (req,res) => {
-  db.retrieveAllUsers((users => {
-    res.send(users);
-  }))
 
+  db.grabUserData(req.body.email, (err, person) => {
+    helper.getNearbyZips(person.zipcode, req.body.searchRadius)
+    .then((zipcodes) => {
+      db.retrieveUsersByZipcodes(zipcodes, (users => {
+        users.sort(function(a, b) {
+          return helper.distanceBetween(person, a) - helper.distanceBetween(person, b);
+        });
+        res.send(users);
+      }))
+    })
+    .catch((error) => {console.log(error);})
+  })
 });
 
 
 app.get('/login', (req, res) => {
-  var username = req.param('username').toUpperCase();
-  var password = req.param('password');
-  db.userExists(username, (err, exists) => {
+  var email = req.body.email.toUpperCase(); //make sure unique users
+  var password = req.body.password;
+  db.userExists(email, (err, exists) => {
 
     if(!exists){
-      throw new Error ('Useranme does not exist');
+      console.log('Useranme does not exist');
     } else {
-      db.grabUserData(username, (err, person) => {
-        if(sha256(userData.salt + password) === userData.hashPass){
+      db.grabUserData(email, (err, person) => {
+        if(sha256(person.salt + password) === person.hashPass){
           console.log('we are logged in');
-          alert('you have logged in');
-          var cookie = helper.setCookieSession(userData.username);
+          var cookie = helper.setCookieSession(person.email);
           console.log(cookie);
           res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
           console.log('cookie created successfully');
         } else{
           console.log("that isn't the correct Password ");
-          res.redirect('/login');
+          res.send(person);
         }
       });
     }
@@ -62,21 +71,25 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  var username = req.query.username.toUpperCase();
-  var pass = req.query.password;
-  throw('we have requsted a signup');
-  var email = req.query.email;
-  userExists(username, (err, exists) => {
+  var email = req.body.email;
+  var pass = req.body.password;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  db.userExists(email, (err, exists) => {
     if(exists){
-      throw new Error ('Useranme already taken');
-      res.redirect('/singup');
-      res.send(302); //
+      console.log('Username already taken');
+      res.send(302);
     } else {
       let salt = crypto.randomBytes(32).toString('hex');
       let hashPass = sha256(salt+pass);
-      db.saveNewUser(JSON.stringify({username: username, email: email, hashPass: hashPass, salt:salt})); // make sure this lines up with claiassas entry function
-      var cookie = helper.setCookieSession(username);
-      alert(helper.setCookieSession(username));
+      db.saveNewUser(JSON.stringify({
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        hashPass: hashPass,
+        salt:salt
+      })); // make sure this lines up with clarissa's entry function
+      var cookie = helper.setCookieSession(email);
       res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
       console.log('cookie created successfully');
     }

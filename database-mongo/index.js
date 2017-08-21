@@ -3,6 +3,7 @@ mongoose.connect('mongodb://localhost/pawpals');
 
 const db = mongoose.connection;
 
+
 db.on('error', () => {
   console.log('mongoose connection error');
 });
@@ -32,12 +33,24 @@ db.once('open', () => {
 
 // MVP version
 const userSchema = mongoose.Schema({
-  _id: Number,
-  username: String,
-  name: String,
   firstName: String,
   lastName: String,
   email: String,
+  phoneNumber: String,
+  bio: String,
+  state: String,
+  zip: Number,
+  street: String,
+  city: String,
+  lat: Number,
+  longi: Number,
+  provider: Boolean,
+  cats: Number,
+  dogs: Number,
+  birds: Number,
+  reptiles: Number,
+  otherPets: Number,
+  profileImage: Number, // <-- Image ?
   hashPass: String,
   salt: String
 });
@@ -55,23 +68,16 @@ const sessionSchema = mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const saveNewUser = (userData, callback) => {
-  for (var i = 0; i < userData.length; i++) {
-    var newUser = new User({
-      _id: userData[i]['id'], // get mongodb to pass one in for us
-      username: userData[i]['username'],
-      firstName: userData[i]['firstName'],
-      lastName: userData[i]['lastName'],
-      email: userData[i]['email'],
-      hashPass: userData[i]['hashPass'],
-      salt: userData[i]['salt'],
-    });
-    newUser.save(function (err) {
-      if (err) { console.log('database save failed', err) }
-      else { console.log('database saved!'); }
-      });
-    callback(err);
-  }
+const Session = mongoose.model('Session', userSchema);
+
+const saveNewUser = (userData) => {
+  console.log('data in helper: ', userData)
+  var newUser = new User(userData);
+  newUser.save(function (err) {
+
+    if (err) { console.log('Database save failed: ', err) }
+    else { console.log('Database saved successfully'); }
+  });
 }
 
 const userExists = (username, callback) => {
@@ -107,7 +113,19 @@ const grabUserData = (username, callback) => { //single user data: will return n
   });
 }
 
+const saveNewCookie = (cookie, username) => {
+  var newSession = new Session({cookie, username}).save(() => {
+    if (err) {
+      console.log('Database save failed: ', err);
+    } else {
+      console.log('Database saved successfully')
+    }
+  });
+
+}
+
 module.exports.grabUserData = grabUserData;
 module.exports.saveNewUser = saveNewUser;
 module.exports.userExists = userExists;
 module.exports.retrieveAllUsers = retrieveAllUsers;
+module.exports.saveNewCookie = saveNewCookie;
