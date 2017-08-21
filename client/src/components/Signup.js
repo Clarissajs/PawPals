@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, Form, FormGroup, Button, Col, Container } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
+import Promise from 'bluebird'
 
 import userActions from '../actions/userActions'
 import CustomInput from './CustomInput'
@@ -20,12 +21,6 @@ class Signup extends React.Component {
           marginBottom: 15
         }}>Complete the form below to join PawPals</h6>
         <Form onSubmit={this.props.handleSubmit(this.handleSubmit.bind(this))}>
-
-          <FormGroup row>
-            <Col xs={{size: 10, offset: 1}}>
-              <Field name='username' type='username' placeholder='Username' component={CustomInput}/>
-            </Col>
-          </FormGroup>
 
           <FormGroup row>
             <Col xs={{size: 10, offset: 1}}>
@@ -76,7 +71,7 @@ const mapStateToProps = state => state.user;
 const mapDispatchToProps = dispatch => {
   return {
     signupUser: (userData) => {
-      dispatch(userActions.signupUser(userData));
+      return dispatch(userActions.signupUser(userData));
     }
   }
 }
