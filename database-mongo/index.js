@@ -12,30 +12,13 @@ db.once('open', () => {
   console.log('mongoose connected successfully');
 });
 
-// all the fields we'd like
-// const userSchema = mongoose.Schema({
-//   _id: Number,
-//   username: String,
-//   name: String,
-//   firstName: String,
-//   lastName: String,
-//   email: String,
-//   hashPass: String,
-//   salt: String
-//   userType: String,
-//   image: {data: Buffer, contentType: String},
-//   pets: Array,
-//   address: String,
-//   zipcode: Number, //could be string
-//   servicesOffered: Array,
-//   preferences: Array
-// });
-
-// MVP version
 const userSchema = mongoose.Schema({
+  _id: String,
   firstName: String,
   lastName: String,
   email: String,
+  hashPass: String,
+  salt: String,
   phoneNumber: String,
   bio: String,
   state: String,
@@ -50,9 +33,8 @@ const userSchema = mongoose.Schema({
   birds: Number,
   reptiles: Number,
   otherPets: Number,
-  profileImage: Number, // <-- Image ?
-  hashPass: String,
-  salt: String
+  //pets: mongoose.Schema.Types.Mixed, //if pets should be an object
+  profileImage: {data: Buffer, contentType: String}
 });
 
 const petSchema = mongoose.Schema({
@@ -62,26 +44,33 @@ const petSchema = mongoose.Schema({
 })
 
 const sessionSchema = mongoose.Schema({
+  _id: String,
   cookie: String,
-  username: String // defaults to null
+  email: String
 });
 
 const User = mongoose.model('User', userSchema);
 
-const Session = mongoose.model('Session', userSchema);
-
-const saveNewUser = (userData) => {
-  console.log('data in helper: ', userData)
-  var newUser = new User(userData);
-  newUser.save(function (err) {
-
-    if (err) { console.log('Database save failed: ', err) }
-    else { console.log('Database saved successfully'); }
+const saveNewUser = (userData, callback) => {
+  var newUser = new User({
+    _id: userData['email'],
+    email: userData['email'],
+    firstName: userData['firstName'],
+    lastName: userData['lastName'],
+    phoneNumber: userData['phoneNumber'],
+    hashPass: userData['hashPass'],
+    salt: userData['salt']
+  });
+  newUser.save((err) => {
+    console.log('err is', err);
+    if (err) { callback(err); }
+    else { callback(null); }
   });
 }
 
-const userExists = (username, callback) => {
-  User.findOne({"username": username}, (err, person) => {
+const userExists = (email, callback) => {
+  console.log('DB: userExists running');
+  User.findOne({"email": email}, (err, person) => {
     if (err) {
       callback(err);
     }
@@ -103,25 +92,31 @@ const retrieveAllUsers = (callback) => {
   })
 }
 
-const grabUserData = (username, callback) => { //single user data: will return null if not found
-  User.findOne({"username": username}, (err, person) => {
+const grabUserData = (email, callback) => { //single user data: will return null if not found
+  User.findOne({"email": email}, (err, person) => {
     if(err) {
-      console.log('grab user data error', err);
+      console.log('DB: grab user data error', err);
     } else {
       callback(err, person);
     }
   });
 }
+const Session = mongoose.model('Session', sessionSchema);
 
-const saveNewCookie = (cookie, username) => {
-  var newSession = new Session({cookie, username}).save(() => {
-    if (err) {
-      console.log('Database save failed: ', err);
-    } else {
-      console.log('Database saved successfully')
-    }
-  });
-
+const saveNewCookie = (sessionData) => {
+    var newSession = new Session({
+      _id: sessionData['email'],
+      cookie: sessionData['cookie'],
+      email: sessionData['email']
+    });
+    newSession.save(function (err) {
+      if (err) {
+        console.log('DB err is', err);
+      }
+      else {
+        console.log('DB: saved new cookie successfully');
+      }
+    });
 }
 
 module.exports.grabUserData = grabUserData;
