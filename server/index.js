@@ -45,22 +45,22 @@ app.get('/listings', (req,res) => {
 
 
 app.get('/login', (req, res) => {
+  console.log('server: req.body.email', req.body.email);
   var email = req.body.email.toUpperCase(); //make sure unique users
   var password = req.body.password;
   db.userExists(email, (err, exists) => {
-
     if(!exists){
-      console.log('Useranme does not exist');
+      console.log('Username does not exist');
     } else {
       db.grabUserData(email, (err, person) => {
         if(sha256(person.salt + password) === person.hashPass){
           console.log('we are logged in');
           var cookie = helper.setCookieSession(person.email);
-          console.log(cookie);
+          console.log('cookie is', cookie);
           res.cookie('session',cookie, { maxAge: 900000, httpOnly: true });
           console.log('cookie created successfully');
         } else{
-          console.log("that isn't the correct Password ");
+          console.log("that isn't the correct Password");
           res.send(person);
         }
       });
@@ -97,7 +97,7 @@ app.post('/signup', (req, res) => {
         lastName: lastName,
         hashPass: hashPass,
         salt:salt
-      }, createCookie); // make sure this lines up with clarissa's entry function
+      }, createCookie);
     }
   });
 });

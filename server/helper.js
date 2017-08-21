@@ -5,9 +5,10 @@ const express = require('express');
 const axios = require('axios');
 
 
-var setCookieSession = function(username) {
+var setCookieSession = function(email) {
   let cookie = crypto.randomBytes(32).toString('hex');
-  db.saveNewCookie(cookie, username);
+  console.log('server cookie is', cookie);
+  db.saveNewCookie({cookie, email});
   return cookie;
 }
 
@@ -46,4 +47,4 @@ module.exports.getNearbyZips = getNearbyZips;
 // }
 
 // module.exports.setCookieSession = setCookieSession;
-// // 
+// //
