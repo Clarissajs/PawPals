@@ -8,8 +8,8 @@ import CustomInput from './CustomInput'
 
 class Login extends React.Component {
 
-  handleSubmit(values) {
-    this.props.loginUser();
+  handleSubmit(formValues) {
+    this.props.loginUser(formValues)
   }
 
   render() {
@@ -47,8 +47,8 @@ const mapStateToProps = state => state.user;
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginUser: () => {
-      dispatch(userActions.loginUser());
+    loginUser: (loginFormData) => {
+      dispatch(userActions.loginUser(loginFormData));
     }
   }
 }

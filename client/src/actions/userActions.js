@@ -1,20 +1,23 @@
-const loginUser = () => {
+const loginUser = (loginFormData) => {
   return {
-    type: 'LOGIN_USER',
+    type: ['LOGIN', 'LOGIN_SUCCESS', 'LOGIN_FAIL'],
     payload: {
       request: {
-        url: '/login'
+        url: '/login?',
+        data: loginFormData
       }
     }
   }
 }
 
-const signupUser = () => {
+const signupUser = (signupFormData) => {
   return {
-    type: 'SIGNUP_USER',
+    type: ['SIGNUP','SIGNUP_SUCCESS', 'SIGNUP_FAIL'],
     payload: {
       request: {
-        url: '/signup'
+        url: '/signup',
+        method: 'post',
+        data: signupFormData
       }
     }
   }
